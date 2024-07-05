@@ -90,4 +90,3 @@ class PersonDetector():
             persons_bottom.append(person_bottom)
         return persons_top, persons_bottom    
 
-

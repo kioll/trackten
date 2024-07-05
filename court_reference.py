@@ -1,7 +1,5 @@
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
-
 
 class CourtReference:
     """
@@ -56,8 +54,6 @@ class CourtReference:
         self.court_total_height = self.court_height + self.top_bottom_border * 2
         self.court = self.build_court_reference()
 
-        # self.court = cv2.cvtColor(cv2.imread('court_configurations/court_reference.png'), cv2.COLOR_BGR2GRAY)
-
     def build_court_reference(self):
         """
         Create court reference image using the lines positions
@@ -74,9 +70,6 @@ class CourtReference:
         cv2.line(court, *self.right_inner_line, 1, self.line_width)
         cv2.line(court, *self.middle_line, 1, self.line_width)
         court = cv2.dilate(court, np.ones((5, 5), dtype=np.uint8))
-        # court = cv2.dilate(court, np.ones((7, 7), dtype=np.uint8))
-        # plt.imsave('court_configurations/court_reference.png', court, cmap='gray')
-        # self.court = court
         return court
 
     def get_important_lines(self):
@@ -108,7 +101,6 @@ class CourtReference:
         """
         mask = np.ones_like(self.court)
         if mask_type == 1:  # Bottom half court
-            # mask[:self.net[0][1] - 1000, :] = 0
             mask[:self.net[0][1], :] = 0
         elif mask_type == 2:  # Top half court
             mask[self.net[0][1]:, :] = 0
@@ -118,8 +110,3 @@ class CourtReference:
             mask[:, :self.left_court_line[0][0]] = 0
             mask[:, self.right_court_line[0][0]:] = 0
         return mask
-
-
-if __name__ == '__main__':
-    c = CourtReference()
-    c.build_court_reference()
